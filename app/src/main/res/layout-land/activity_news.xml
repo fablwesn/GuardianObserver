@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><!-- TODO -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fablwesn.www.guardianobserver.NewsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- header text displaying quantity of results -->
+        <TextView
+            android:id="@id/header_text"
+            style="@style/HeaderTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/button_parent_linlay"
+            android:layout_below="@id/header_text">
+
+            <!-- Recycler-View displaying the news-list. -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_space_default"
+                android:scrollbars="vertical" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <!-- Displayed while the list-items are being prepared. -->
+        <ProgressBar
+            android:id="@id/circular_progression_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/empty_text"
+            android:layout_centerHorizontal="true" />
+
+        <!-- Empty TextView used while the list is loading or there is an error with the results/no results. -->
+        <TextView
+            android:id="@id/empty_text"
+            style="@style/EmptyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/inform_loading_news" />
+
+        <LinearLayout
+            android:id="@id/button_parent_linlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/small_space_default"
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@id/button_prev_page"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="prevPage"
+                android:src="@drawable/ic_navigate_before"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@id/button_next_page"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="nextPage"
+                android:src="@drawable/ic_navigate_next"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+    </style>
+
+    <!-- used as the background instead of the layout of the Launcher-Activity (Splash-Activity) and disappears as soon as the Main-Activity is ready. -->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <!-- HeaderImg at the top [INSIDE RELATIVE LAYOUT] -->
+    <style name="HeaderImageView">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:src">@drawable/img_header</item>
+        <item name="android:tint">@android:color/white</item>
+        <item name="android:paddingTop">@dimen/large_space_default</item>
+        <item name="android:paddingLeft">@dimen/large_space_default</item>
+        <item name="android:paddingRight">@dimen/large_space_default</item>
+    </style>
+
+    <!-- HeaderText displaying how many results were found [INSIDE RELATIVE LAYOUT] -->
+    <style name="HeaderTextView">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle</item>
+        <item name="android:textColor">@color/colorTextHeadline</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/small_space_default</item>
+        <item name="android:paddingLeft">@dimen/large_space_default</item>
+        <item name="android:paddingRight">@dimen/large_space_default</item>
+        <item name="android:paddingBottom">@dimen/large_space_default</item>
+    </style>
+
+    <!-- Empty TextView used while the list is loading or there is an error with the results/no results [INSIDE RELATIVE LAYOUT] -->
+    <style name="EmptyTextView">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_margin">@dimen/medium_space_default</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Large</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

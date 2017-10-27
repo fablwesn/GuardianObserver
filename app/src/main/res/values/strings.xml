@@ -1,0 +1,25 @@
+<resources>
+    <!-- NewsActivity label -->
+    <string name="app_name">GuardianObserver</string>
+
+    <!-- HeaderText displayed at the top of the list -->
+    <string name="header_title">%1$d new articles in the past 48h.</string>
+
+    <!-- EmptyText message while loading the list items -->
+    <string name="inform_loading_news">Loading  news &#8230;\nPlease wait a moment.</string>
+    <!-- EmptyText message when no network connection is available -->
+    <string name="inform_no_network">Your device seems to be offline.\nPlease enable internet connection to use this app.</string>
+    <!-- EmptyText message when network connection has been lost while loading data -->
+    <string name="inform_network_lost">Network connection lost while loading.\nPlease enable your connection and try again.</string>
+    <!-- displayed when no search results were found -->
+    <string name="inform_no_results">No more search results found.\n</string>
+    <!-- displayed when there is an error building the request url -->
+    <string name="inform_build_url">Problem building the URL.\nplease inform feedback@fablwesn.com or try a different query</string>
+
+
+    <!--
+                        !  DO NOT TRANSLATE THE FOLLOWING STRINGS !
+    -->
+    <string name="extra_key_recycler_state">RECYCLER_STATE</string>
+    <string name="extra_key_page">PAGE_TO_DISPLAY</string>
+</resources>
