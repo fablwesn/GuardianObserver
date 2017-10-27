@@ -12,11 +12,6 @@
         <item name="android:windowBackground">@color/colorBackground</item>
     </style>
 
-    <!-- used as the background instead of the layout of the Launcher-Activity (Splash-Activity) and disappears as soon as the Main-Activity is ready. -->
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-    </style>
-
     <!-- HeaderImg at the top [INSIDE RELATIVE LAYOUT] -->
     <style name="HeaderImageView">
         <item name="android:layout_alignParentTop">true</item>

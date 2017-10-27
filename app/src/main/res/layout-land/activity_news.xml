@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- TODO -->
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.fablwesn.www.guardianobserver.NewsActivity">
@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
+        <!-- enables swiping to reload -->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -49,6 +50,7 @@
             android:layout_centerInParent="true"
             android:text="@string/inform_loading_news" />
 
+        <!-- contains the next and previous page buttons -->
         <LinearLayout
             android:id="@id/button_parent_linlay"
             android:layout_width="match_parent"
@@ -58,6 +60,7 @@
             android:background="@color/colorPrimary"
             android:orientation="horizontal">
 
+            <!-- previous button -->
             <ImageView
                 android:id="@id/button_prev_page"
                 android:layout_width="0dp"
@@ -67,6 +70,7 @@
                 android:src="@drawable/ic_navigate_before"
                 android:visibility="invisible" />
 
+            <!-- next button -->
             <ImageView
                 android:id="@id/button_next_page"
                 android:layout_width="0dp"

@@ -30,9 +30,6 @@ import java.util.Locale;
 class NewsUtils {
 
 
-    // stores the total articles found for the query
-    static int totalArticles = 0;
-
     //Tag for logging
     private static final String LOG_TAG = NewsUtils.class.getName();
     //Error message for http request
@@ -47,7 +44,8 @@ class NewsUtils {
     private static final String ERROR_LOG_BUILDING_URL = "Problem building the URL. Please inform feedback@fablwesn.com or try a different query";
     // Log error message when formatting the date failed
     private static final String ERROR_LOG_FORMATTING_DATE = "An exception was encountered while trying to parse a date";
-
+    // stores the total articles found for the query
+    static int totalArticles = 0;
 
     /**
      * check's if the device has internet connectivity
@@ -237,6 +235,12 @@ class NewsUtils {
         return newsArticleList;
     }
 
+    /**
+     * shortens the author string, in case more than one is given
+     *
+     * @param author raw String
+     * @return shortened String
+     */
     private static String shortenedAuthor(String author){
         // some contain multiple authors separated by ',', only show one of them
         if (author.contains(","))
@@ -245,13 +249,17 @@ class NewsUtils {
     }
 
     /**
-     * TODO
+     * build the url for requesting
      *
-     * @param url
-     * @return
+     * @param dateToday today's date for the to-date param
+     * @param dateYesterday yesterday's date for the from-date param
+     * @param page  page to display
+     *
+     * @return request url
      */
     static URL buildUrl(String dateToday, String dateYesterday, int page) {
         String url =
+                // build the string url puzzle
                 DefaultValues.RAW_QUERY_URL_STRING_START +
                         DefaultValues.RAW_QUERY_URL_STRING_PARAM_DATE_FROM + dateYesterday.trim() +
                         DefaultValues.RAW_QUERY_URL_STRING_PARAM_DATE_TO + dateToday.trim() +
