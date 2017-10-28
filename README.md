@@ -6,9 +6,6 @@ The Guardian (UK) News App for ABND by Udacity &amp; Google
 
 ![Preview of Home Screen](https://raw.githubusercontent.com/fablwesn/GuardianObserver/master/home_preview.PNG)
 
-
-![Preview of Search Query](https://raw.githubusercontent.com/fablwesn/DiscoverGoogleBooks/master/preview_search_query.gif)
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
