@@ -11,7 +11,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.fablwesn.www.guardianobserver.databinding.ActivityNewsBinding;
 
@@ -32,8 +31,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     // loader manager used
     private LoaderManager loaderManager;
 
-    // list containing all books to display
-    List<NewsObject> displayedNewsList;
+    // list containing all news to display
+    private List<NewsObject> displayedNewsList;
     // final url used for requesting
     private URL requestUrl;
 
@@ -47,6 +46,15 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // set fullscreen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        // Get a reference to the LoaderManager, in order to interact with loaders.
+        loaderManager = getLoaderManager();
+        // prepare the recycler view
+        layout.listRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layout.listRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //prepare the swipe-refresh-layout for refreshing data
+        prepareSwipeRefresh();
 
         // check for network connectivity
         // if there is none inform the user and return
@@ -64,6 +72,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // if the app recreates (orientation change) get the last page viewed
         if (savedInstanceState != null)
             page = savedInstanceState.getInt(getResources().getString(R.string.extra_key_page));
+
         // if the current page being displayed is the first one, hide the previous page button
         if (page != 1)
             layout.buttonPrevPage.setVisibility(View.VISIBLE);
@@ -71,16 +80,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // build url with all available data
         requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
 
-        // prepare the recycler view
-        layout.listRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        layout.listRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        // Get a reference to the LoaderManager, in order to interact with loaders.
-        loaderManager = getLoaderManager();
+        // start loading
         loaderManager.initLoader(0, null, this);
-
-        //prepare the swipe-refresh-layout for refreshing data
-        prepareSwipeRefresh();
     }
 
     /* onSaveInstanceState
@@ -100,8 +101,15 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onPause();
         // save RecyclerView state
         recyclerStateBundle = new Bundle();
-        Parcelable listState = layout.listRecyclerView.getLayoutManager().onSaveInstanceState();
-        recyclerStateBundle.putParcelable(getResources().getString(R.string.extra_key_recycler_state), listState);
+        if (recyclerViewAdapter != null) {
+            Parcelable listState = layout.listRecyclerView.getLayoutManager().onSaveInstanceState();
+            recyclerStateBundle.putParcelable(getResources().getString(R.string.extra_key_recycler_state), listState);
+        }
+
+        if (!NewsUtils.isNetworkAvailable(NewsActivity.this))
+            layout.listRecyclerView.setVisibility(View.INVISIBLE);
+        else
+            layout.listRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /* onResume
@@ -113,9 +121,16 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // restore RecyclerView state
         if (recyclerStateBundle != null) {
-            Parcelable listState = recyclerStateBundle.getParcelable(getResources().getString(R.string.extra_key_recycler_state));
-            layout.listRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+            if (recyclerViewAdapter != null) {
+                Parcelable listState = recyclerStateBundle.getParcelable(getResources().getString(R.string.extra_key_recycler_state));
+                layout.listRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+            }
         }
+
+        if (!NewsUtils.isNetworkAvailable(NewsActivity.this))
+            layout.listRecyclerView.setVisibility(View.INVISIBLE);
+        else
+            layout.listRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /* onCreateLoader
@@ -140,10 +155,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // check for connection in case it broke off while loading and return in case it did while informing the user
         if (!NewsUtils.isNetworkAvailable(NewsActivity.this)) {
             informUser(getResources().getString(R.string.inform_network_lost));
+            layout.listRecyclerView.setVisibility(View.INVISIBLE);
             return;
         }
 
-        // Clear the adapter of previous book data
+        // Clear the adapter of previous news data
         clearNewsAdapter();
 
         // If there is a valid list of {@link NewsObject}s, then add them to the adapter's
@@ -191,11 +207,25 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         layout.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // go back to the first page
-                page = 1;
-                //build url and start loading new data
-                requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
-                loaderManager.restartLoader(0, null, NewsActivity.this);
+                if (NewsUtils.isNetworkAvailable(NewsActivity.this)) {
+                    layout.listRecyclerView.setVisibility(View.VISIBLE);
+                    // go back to the first page
+                    page = 1;
+                    //build url and start loading new data
+                    requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
+
+                    // start loading
+                    if (getLoaderManager().getLoader(0) == null)
+                        loaderManager.initLoader(0, null, NewsActivity.this);
+                    else
+                        loaderManager.restartLoader(0, null, NewsActivity.this);
+
+                    layout.buttonPrevPage.setVisibility(View.INVISIBLE);
+                } else {
+                    informUser(getResources().getString(R.string.inform_no_network));
+                    layout.swipeRefreshLayout.setRefreshing(false);
+                    layout.listRecyclerView.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -240,6 +270,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // Hide progress indicator
         layout.circularProgressionBar.setVisibility(View.GONE);
         // set text
+        layout.emptyText.setVisibility(View.VISIBLE);
         layout.emptyText.setText(message);
     }
 
@@ -253,17 +284,23 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
      * @param nextButton button on the bottom right
      */
     public void nextPage(View nextButton) {
-        // increment the page
-        page += 1;
-        // if we are above the first page, display the previous button
-        if (page > 1)
-            layout.buttonPrevPage.setVisibility(View.VISIBLE);
-        // build new url
-        requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
-        // display loading indicator
-        layout.circularProgressionBar.setVisibility(View.VISIBLE);
-        // start loading
-        loaderManager.restartLoader(0, null, NewsActivity.this);
+        if (NewsUtils.isNetworkAvailable(NewsActivity.this)) {
+            layout.listRecyclerView.setVisibility(View.VISIBLE);
+            // increment the page
+            page += 1;
+            // if we are above the first page, display the previous button
+            if (page > 1)
+                layout.buttonPrevPage.setVisibility(View.VISIBLE);
+            // build new url
+            requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
+            // display loading indicator
+            layout.circularProgressionBar.setVisibility(View.VISIBLE);
+            // start loading
+            loaderManager.restartLoader(0, null, NewsActivity.this);
+        } else {
+            informUser(getResources().getString(R.string.inform_no_network));
+            layout.listRecyclerView.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -272,17 +309,23 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
      * @param nextButton button on the bottom left
      */
     public void prevPage(View nextButton) {
-        // decrement the page
-        page -= 1;
-        // if we are on page 1 afterwards (or below), hide the previous button
-        if (page <= 1)
-            layout.buttonPrevPage.setVisibility(View.INVISIBLE);
+        if (NewsUtils.isNetworkAvailable(NewsActivity.this)) {
+            layout.listRecyclerView.setVisibility(View.VISIBLE);
+            // decrement the page
+            page -= 1;
+            // if we are on page 1 afterwards (or below), hide the previous button
+            if (page <= 1)
+                layout.buttonPrevPage.setVisibility(View.INVISIBLE);
 
-        // build new url
-        requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
-        // display loading indicator
-        layout.circularProgressionBar.setVisibility(View.VISIBLE);
-        // start loading
-        loaderManager.restartLoader(0, null, NewsActivity.this);
+            // build new url
+            requestUrl = NewsUtils.buildUrl(getTodaysDate(), getYesterdaysDate(), page);
+            // display loading indicator
+            layout.circularProgressionBar.setVisibility(View.VISIBLE);
+            // start loading
+            loaderManager.restartLoader(0, null, NewsActivity.this);
+        } else {
+            informUser(getResources().getString(R.string.inform_no_network));
+            layout.listRecyclerView.setVisibility(View.INVISIBLE);
+        }
     }
 }

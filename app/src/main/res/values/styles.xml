@@ -27,7 +27,9 @@
     <!-- HeaderText displaying how many results were found [INSIDE RELATIVE LAYOUT] -->
     <style name="HeaderTextView">
         <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle</item>
+        <item name="android:textAppearance">
+            @style/Base.TextAppearance.AppCompat.SearchResult.Subtitle
+        </item>
         <item name="android:textColor">@color/colorTextHeadline</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/small_space_default</item>

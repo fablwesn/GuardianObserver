@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="header_img" type="id"/>
-    <item name="header_text" type="id"/>
+    <item name="header_img" type="id" />
+    <item name="header_text" type="id" />
 
-    <item name="swipe_refresh_layout" type="id"/>
-    <item name="list_recycler_view" type="id"/>
-    <item name="circular_progression_bar" type="id"/>
-    <item name="empty_text" type="id"/>
+    <item name="swipe_refresh_layout" type="id" />
+    <item name="list_recycler_view" type="id" />
+    <item name="circular_progression_bar" type="id" />
+    <item name="empty_text" type="id" />
 
-    <item name="button_parent_linlay" type="id"/>
-    <item name="button_next_page" type="id"/>
-    <item name="button_prev_page" type="id"/>
+    <item name="button_parent_linlay" type="id" />
+    <item name="button_next_page" type="id" />
+    <item name="button_prev_page" type="id" />
 
-    <item name="clickable_list_view" type="id"/>
-    <item name="section_list_text" type="id"/>
-    <item name="title_list_text" type="id"/>
-    <item name="details_list_text" type="id"/>
+    <item name="clickable_list_view" type="id" />
+    <item name="section_list_text" type="id" />
+    <item name="title_list_text" type="id" />
+    <item name="details_list_text" type="id" />
 </resources>

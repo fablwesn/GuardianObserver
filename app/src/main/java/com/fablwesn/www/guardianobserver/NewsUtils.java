@@ -241,7 +241,7 @@ class NewsUtils {
      * @param author raw String
      * @return shortened String
      */
-    private static String shortenedAuthor(String author){
+    private static String shortenedAuthor(String author) {
         // some contain multiple authors separated by ',', only show one of them
         if (author.contains(","))
             author = author.substring(0, author.indexOf(",") - 1);
@@ -251,10 +251,9 @@ class NewsUtils {
     /**
      * build the url for requesting
      *
-     * @param dateToday today's date for the to-date param
+     * @param dateToday     today's date for the to-date param
      * @param dateYesterday yesterday's date for the from-date param
-     * @param page  page to display
-     *
+     * @param page          page to display
      * @return request url
      */
     static URL buildUrl(String dateToday, String dateYesterday, int page) {

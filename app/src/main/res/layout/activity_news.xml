@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:onClick="prevPage"
                 android:src="@drawable/ic_navigate_before"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <!-- next button -->
             <ImageView
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:onClick="nextPage"
                 android:src="@drawable/ic_navigate_next"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
         </LinearLayout>
     </RelativeLayout>

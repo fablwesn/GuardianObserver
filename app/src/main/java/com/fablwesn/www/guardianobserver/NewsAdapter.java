@@ -16,7 +16,7 @@ import java.util.List;
 class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     // list with {@link NewsObject}s
-    private List<NewsObject> newsList;
+    private final List<NewsObject> newsList;
 
     NewsAdapter(List<NewsObject> list) {
         newsList = list;
@@ -47,7 +47,7 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
         // update text views
         holder.title.setText(newsModel.getTitle());
         holder.section.setText(newsModel.getSection());
-        holder.details.setText(styleDetails(newsModel.getAuthor(),newsModel.getPublishedDate()));
+        holder.details.setText(styleDetails(newsModel.getAuthor(), newsModel.getPublishedDate()));
 
         // set click listener opening the article's link
         holder.clickable.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +68,27 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
         return newsList.size();
     }
 
+    /**
+     * puts author and date into a textfield and styles it
+     *
+     * @param author    author of the article
+     * @param published date the article was published
+     * @return detail string including author and date
+     */
+    private String styleDetails(String author, String published) {
+        if (author.isEmpty())
+            return published;
+
+        return author + DefaultValues.LIST_AUTHOR_PUBLISHED_SEPARATOR + published;
+    }
+
     // single list item, get everything we need to display the results correctly
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, section, details;
-        View clickable;
+        final TextView title;
+        final TextView section;
+        final TextView details;
+        final View clickable;
 
         MyViewHolder(View listItem) {
             super(listItem);
@@ -82,18 +98,5 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
             details = listItem.findViewById(R.id.details_list_text);
             clickable = listItem.findViewById(R.id.clickable_list_view);
         }
-    }
-
-    /**
-     * TODO
-     * @param author
-     * @param published
-     * @return
-     */
-    private String styleDetails(String author, String published){
-        if(author.isEmpty())
-            return published;
-
-        return author + DefaultValues.LIST_AUTHOR_PUBLISHED_SEPARATOR + published;
     }
 }

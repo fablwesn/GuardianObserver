@@ -7,33 +7,33 @@ class NewsObject {
 
     // declaration of String constants used by the class
     static final String NO_HEADLINE_STRING = "no headline";
-    static final String NO_SECTION_STRING  = "general";
-    static final String AUTHOR_PREFIX  = "by ";
+    static final String NO_SECTION_STRING = "general";
+    static final String AUTHOR_PREFIX = "by ";
 
     /**
      * new's title
      */
-    private String title;
+    private final String title;
 
     /**
      * new's author
      */
-    private String author;
+    private final String author;
 
     /**
      * new's section
      */
-    private String section;
+    private final String section;
 
     /**
      * new's publishedDate date
      */
-    private String publishedDate;
+    private final String publishedDate;
 
     /**
      * new's web link
      */
-    private String link;
+    private final String link;
 
     /* Constructor */
     NewsObject(String title, String author, String section, String publishedDate, String link) {

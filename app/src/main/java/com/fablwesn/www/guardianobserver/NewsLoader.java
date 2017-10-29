@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * Loader class to fetch the search query results from the guardian's Web API
  */
-public class NewsLoader extends AsyncTaskLoader<List<NewsObject>> {
+class NewsLoader extends AsyncTaskLoader<List<NewsObject>> {
 
     // url the load bases upon
-    private URL url;
+    private final URL url;
 
     /* Class constructor */
     NewsLoader(Context context, URL url) {
